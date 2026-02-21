@@ -20,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.yuriy.diapason.ui.navigation.Screen
 import com.yuriy.diapason.ui.navigation.bottomNavItems
+import com.yuriy.diapason.ui.screens.about.AboutScreen
 import com.yuriy.diapason.ui.screens.analyze.AnalyzeScreen
 import com.yuriy.diapason.ui.screens.analyze.AnalyzeViewModel
 import com.yuriy.diapason.ui.screens.guide.GuideScreen
@@ -28,11 +29,10 @@ import com.yuriy.diapason.ui.screens.voicetypes.VoiceTypesScreen
 
 @Composable
 fun DiapasonApp() {
-    val navController = rememberNavController()
 
+    val navController = rememberNavController()
     // Activity-scoped so ResultsScreen can pull lastResult from the same instance
     val analyzeViewModel: AnalyzeViewModel = viewModel()
-
     // Determine if the bottom bar should be visible
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -61,7 +61,11 @@ fun DiapasonApp() {
                             },
                             icon = {
                                 Icon(
-                                    if (selected) item.selectedIcon else item.unselectedIcon,
+                                    if (selected) {
+                                        item.selectedIcon
+                                    } else {
+                                        item.unselectedIcon
+                                    },
                                     contentDescription = stringResource(item.label)
                                 )
                             },
@@ -77,32 +81,42 @@ fun DiapasonApp() {
             startDestination = Screen.Analyze.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            // ── Analyze (bottom nav destination) ────────────────────────────
+            // ── Analyze ──────────────────────────────────────────────────────
             composable(Screen.Analyze.route) {
                 AnalyzeScreen(
                     viewModel = analyzeViewModel,
                     onNavigateToResults = {
-                        navController.navigate(Screen.Results.route)
+                        // Use singleTop so the back-stack only ever has one
+                        // Results entry — both the "new result" auto-navigate
+                        // and the "View last result" banner share this path.
+                        navController.navigate(Screen.Results.route) {
+                            launchSingleTop = true
+                        }
                     }
                 )
             }
 
-            // ── Guide (bottom nav destination) ──────────────────────────────
+            // ── Guide ────────────────────────────────────────────────────────
             composable(Screen.Guide.route) {
                 GuideScreen()
             }
 
-            // ── Voice Types (bottom nav destination) ────────────────────────
+            // ── Voice Types ──────────────────────────────────────────────────
             composable(Screen.VoiceTypes.route) {
                 VoiceTypesScreen()
             }
 
-            // ── Results (pushed on top — no bottom bar) ──────────────────────
+            // ── About ────────────────────────────────────────────────────────
+            composable(Screen.About.route) {
+                AboutScreen()
+            }
+
+            // ── Results (full-screen, no bottom bar) ─────────────────────────
             composable(Screen.Results.route) {
                 val result = analyzeViewModel.lastResult
 
                 if (result == null) {
-                    // Safety: if we land here without data, go back
+                    // Guard: no data — silently go back rather than crash
                     navController.popBackStack()
                     return@composable
                 }

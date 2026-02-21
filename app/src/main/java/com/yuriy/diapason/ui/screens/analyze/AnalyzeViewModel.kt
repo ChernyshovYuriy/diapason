@@ -46,15 +46,20 @@ sealed interface AnalyzeUiState {
 class AnalyzeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
-
     private val _uiState = MutableStateFlow<AnalyzeUiState>(AnalyzeUiState.Idle)
     val uiState: StateFlow<AnalyzeUiState> = _uiState.asStateFlow()
-
     private val analyzer = VoiceAnalyzer(viewModelScope)
 
-    // Holds the last result so ResultsScreen can retrieve it after navigation
-    var lastResult: AnalyzeUiState.ResultReady? = null
-        private set
+    /**
+     * Holds the last result so ResultsScreen can retrieve it after navigation.
+     * Backed by a StateFlow so AnalyzeScreen can reactively show/hide the
+     * "View Last Result" button without re-running an analysis.
+     */
+    private val _lastResult = MutableStateFlow<AnalyzeUiState.ResultReady?>(null)
+    val lastResultFlow: StateFlow<AnalyzeUiState.ResultReady?> = _lastResult.asStateFlow()
+
+    /** Convenience accessor for ResultsScreen (non-reactive, always up-to-date). */
+    val lastResult: AnalyzeUiState.ResultReady? get() = _lastResult.value
 
     init {
         analyzer.onPitchDetected = { hz, noteName ->
@@ -113,16 +118,25 @@ class AnalyzeViewModel(application: Application) : AndroidViewModel(application)
 
         val matches = FachClassifier.classify(profile)
         val result = AnalyzeUiState.ResultReady(profile = profile, matches = matches)
-        lastResult = result
+        _lastResult.value = result // persist across back-navigation
         _uiState.value = result
     }
 
     fun resetToIdle() {
         _uiState.value = AnalyzeUiState.Idle
+        // NOTE: _lastResult is intentionally NOT cleared here so the user can
+        // still tap "View Last Result" before they start a fresh recording.
+    }
+
+    /** Clears the stored result (called when user explicitly starts a new session). */
+    fun clearLastResult() {
+        _lastResult.value = null
     }
 
     override fun onCleared() {
         super.onCleared()
-        if (analyzer.isRunning) analyzer.stop(getString(R.string.analyze_status_too_few_samples))
+        if (analyzer.isRunning) {
+            analyzer.stop(getString(R.string.analyze_status_too_few_samples))
+        }
     }
 }

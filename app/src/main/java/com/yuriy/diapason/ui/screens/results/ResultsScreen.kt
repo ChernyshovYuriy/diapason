@@ -89,7 +89,9 @@ fun ResultsScreen(
                 SectionLabel(stringResource(R.string.results_section_other_matches))
                 matches.drop(1).take(4).forEachIndexed { index, match ->
                     RunnerUpRow(rank = index + 2, match = match)
-                    if (index < 3) HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    if (index < 3) {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    }
                 }
             }
 
@@ -234,7 +236,10 @@ private fun RangeStatsCard(profile: VoiceProfile) {
             StatRow(
                 label = stringResource(R.string.results_stat_samples),
                 value = profile.sampleCount.toString(),
-                sub = stringResource(R.string.results_stat_session_format, profile.durationSeconds)
+                sub = stringResource(
+                    R.string.results_stat_session_format,
+                    profile.durationSeconds
+                )
             )
         }
     }

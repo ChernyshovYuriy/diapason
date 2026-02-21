@@ -7,6 +7,7 @@
     <string name="nav_analyze">Analyze</string>
     <string name="nav_guide">Guide</string>
     <string name="nav_voice_types">Voice Types</string>
+    <string name="nav_about">About</string>
 
     <!-- ══ Analyze Screen ══════════════════════════════════════════════════ -->
     <string name="analyze_idle_prompt">Press Start and sing across your full range</string>
@@ -17,6 +18,10 @@
     <string name="analyze_btn_start">Start</string>
     <string name="analyze_btn_stop">Stop</string>
     <string name="analyze_btn_try_again">Try Again</string>
+    <string name="analyze_unknown">Unknown</string>
+    <string name="analyze_view">View</string>
+    <string name="analyze_last_result_type">Last result: %1$s</string>
+    <string name="analyze_range">Range: %1$s - %2$s</string>
 
     <!-- Status messages (also provided to VoiceAnalyzer / AnalyzeViewModel) -->
     <string name="analyze_status_listening">Listening… sing from your lowest to highest note, then back</string>

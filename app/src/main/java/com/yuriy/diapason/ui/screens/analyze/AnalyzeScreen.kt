@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Button
@@ -34,6 +35,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +54,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.yuriy.diapason.R
+import com.yuriy.diapason.analyzer.FachClassifier
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -60,8 +63,9 @@ fun AnalyzeScreen(
     onNavigateToResults: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lastResult by viewModel.lastResultFlow.collectAsStateWithLifecycle()
 
-    // Auto-navigate when result is ready
+    // Auto-navigate when a new result is produced
     LaunchedEffect(uiState) {
         if (uiState is AnalyzeUiState.ResultReady) {
             onNavigateToResults()
@@ -94,6 +98,20 @@ fun AnalyzeScreen(
         )
 
         Spacer(Modifier.height(16.dp))
+
+        // ── Previous result banner (visible only when idle + result exists) ──
+        val isIdle = uiState is AnalyzeUiState.Idle
+        AnimatedVisibility(visible = isIdle && lastResult != null) {
+            lastResult?.let { result ->
+                PreviousResultBanner(
+                    voiceType = result.matches.firstOrNull()?.fach?.name
+                        ?: stringResource(R.string.analyze_unknown),
+                    minNote = FachClassifier.hzToNoteName(result.profile.absoluteMinHz),
+                    maxNote = FachClassifier.hzToNoteName(result.profile.absoluteMaxHz),
+                    onClick = onNavigateToResults
+                )
+            }
+        }
 
         // ── Central pitch display ─────────────────────────────────────────────
         PitchDisplay(uiState = uiState)
@@ -153,7 +171,6 @@ fun AnalyzeScreen(
 
         if (isRecording) {
             PulsingButton(
-                label = stringResource(R.string.analyze_btn_stop),
                 onClick = { viewModel.stopRecording() }
             )
         } else {
@@ -197,6 +214,76 @@ fun AnalyzeScreen(
         }
 
         Spacer(Modifier.height(24.dp))
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Previous result banner
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+private fun PreviousResultBanner(
+    voiceType: String,
+    minNote: String,
+    maxNote: String,
+    onClick: () -> Unit
+) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    Icons.Filled.History,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(end = 0.dp)
+                )
+                Column(modifier = Modifier.padding(start = 10.dp)) {
+                    Text(
+                        text = stringResource(
+                            R.string.analyze_last_result_type,
+                            voiceType
+                        ),
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    Text(
+                        text = stringResource(
+                            R.string.analyze_range, minNote, maxNote
+                        ),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.75f)
+                    )
+                }
+            }
+            OutlinedButton(
+                onClick = onClick,
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text(
+                    stringResource(R.string.analyze_view),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+        }
     }
 }
 
@@ -248,7 +335,7 @@ private fun PitchDisplay(uiState: AnalyzeUiState) {
 }
 
 @Composable
-private fun PulsingButton(label: String, onClick: () -> Unit) {
+private fun PulsingButton(onClick: () -> Unit) {
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -275,7 +362,12 @@ private fun PulsingButton(label: String, onClick: () -> Unit) {
             contentDescription = null,
             modifier = Modifier.padding(end = 8.dp)
         )
-        Text(label, style = MaterialTheme.typography.titleMedium)
+        Text(
+            stringResource(
+                R.string.analyze_btn_stop
+            ),
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 
@@ -293,8 +385,7 @@ private fun StatCard(label: String, value: String) {
         ) {
             Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Text(
-                label,
-                style = MaterialTheme.typography.labelSmall,
+                label, style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
