@@ -41,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,6 +51,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
+import com.yuriy.diapason.R
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -81,12 +83,12 @@ fun AnalyzeScreen(
 
         // ── App title ────────────────────────────────────────────────────────
         Text(
-            text = "Diapason",
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Voice range classifier",
+            text = stringResource(R.string.app_tagline),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -106,10 +108,10 @@ fun AnalyzeScreen(
         ) { state ->
             Text(
                 text = when (state) {
-                    is AnalyzeUiState.Idle -> "Press Start and sing across your full range"
+                    is AnalyzeUiState.Idle -> stringResource(R.string.analyze_idle_prompt)
                     is AnalyzeUiState.Recording -> state.statusMessage
                     is AnalyzeUiState.InsufficientData -> state.reason
-                    is AnalyzeUiState.ResultReady -> "Analysis complete!"
+                    is AnalyzeUiState.ResultReady -> stringResource(R.string.analyze_complete)
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = when (state) {
@@ -132,9 +134,12 @@ fun AnalyzeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                StatCard(label = "Samples", value = recording?.sampleCount?.toString() ?: "0")
                 StatCard(
-                    label = "Hz",
+                    label = stringResource(R.string.analyze_stat_samples),
+                    value = recording?.sampleCount?.toString() ?: "0"
+                )
+                StatCard(
+                    label = stringResource(R.string.analyze_stat_hz),
                     value = if ((recording?.currentHz ?: 0f) > 0)
                         "%.1f".format(recording?.currentHz) else "—"
                 )
@@ -147,8 +152,10 @@ fun AnalyzeScreen(
         val isRecording = uiState is AnalyzeUiState.Recording
 
         if (isRecording) {
-            // Pulsing stop button
-            PulsingButton(onClick = { viewModel.stopRecording() })
+            PulsingButton(
+                label = stringResource(R.string.analyze_btn_stop),
+                onClick = { viewModel.stopRecording() }
+            )
         } else {
             Button(
                 onClick = {
@@ -171,7 +178,9 @@ fun AnalyzeScreen(
                     text = if (!micPermission.status.isGranted
                         && micPermission.status.shouldShowRationale
                     )
-                        "Grant Mic Permission" else "Start",
+                        stringResource(R.string.analyze_btn_grant_permission)
+                    else
+                        stringResource(R.string.analyze_btn_start),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -184,7 +193,7 @@ fun AnalyzeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
-            ) { Text("Try Again") }
+            ) { Text(stringResource(R.string.analyze_btn_try_again)) }
         }
 
         Spacer(Modifier.height(24.dp))
@@ -201,7 +210,6 @@ private fun PitchDisplay(uiState: AnalyzeUiState) {
     val note = (uiState as? AnalyzeUiState.Recording)?.currentNote ?: "—"
 
     Box(contentAlignment = Alignment.Center) {
-        // Outer ring — glows when recording
         Box(
             modifier = Modifier
                 .size(200.dp)
@@ -212,7 +220,6 @@ private fun PitchDisplay(uiState: AnalyzeUiState) {
                     shape = CircleShape
                 )
         )
-        // Inner background circle
         Box(
             modifier = Modifier
                 .size(170.dp)
@@ -226,13 +233,7 @@ private fun PitchDisplay(uiState: AnalyzeUiState) {
         ) {
             AnimatedContent(
                 targetState = note,
-                transitionSpec = {
-                    fadeIn(
-                        tween(150)
-                    ) togetherWith fadeOut(
-                        tween(150)
-                    )
-                },
+                transitionSpec = { fadeIn(tween(150)) togetherWith fadeOut(tween(150)) },
                 label = "note"
             ) { n ->
                 Text(
@@ -247,7 +248,7 @@ private fun PitchDisplay(uiState: AnalyzeUiState) {
 }
 
 @Composable
-private fun PulsingButton(onClick: () -> Unit) {
+private fun PulsingButton(label: String, onClick: () -> Unit) {
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -274,7 +275,7 @@ private fun PulsingButton(onClick: () -> Unit) {
             contentDescription = null,
             modifier = Modifier.padding(end = 8.dp)
         )
-        Text("Stop", style = MaterialTheme.typography.titleMedium)
+        Text(label, style = MaterialTheme.typography.titleMedium)
     }
 }
 
@@ -292,7 +293,8 @@ private fun StatCard(label: String, value: String) {
         ) {
             Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Text(
-                label, style = MaterialTheme.typography.labelSmall,
+                label,
+                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

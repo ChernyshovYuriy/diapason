@@ -1,4 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Diapason</string>
+    <string name="app_tagline">Voice range classifier</string>
+
+    <!-- ══ Navigation ══════════════════════════════════════════════════════ -->
+    <string name="nav_analyze">Analyze</string>
+    <string name="nav_guide">Guide</string>
+    <string name="nav_voice_types">Voice Types</string>
+
+    <!-- ══ Analyze Screen ══════════════════════════════════════════════════ -->
+    <string name="analyze_idle_prompt">Press Start and sing across your full range</string>
+    <string name="analyze_complete">Analysis complete!</string>
+    <string name="analyze_stat_samples">Samples</string>
+    <string name="analyze_stat_hz">Hz</string>
+    <string name="analyze_btn_grant_permission">Grant Mic Permission</string>
+    <string name="analyze_btn_start">Start</string>
+    <string name="analyze_btn_stop">Stop</string>
+    <string name="analyze_btn_try_again">Try Again</string>
+
+    <!-- Status messages (also provided to VoiceAnalyzer / AnalyzeViewModel) -->
+    <string name="analyze_status_listening">Listening… sing from your lowest to highest note, then back</string>
+    <string name="analyze_status_listening_short">Listening… sing from your lowest to highest note</string>
+    <string name="analyze_status_analyzing">Analyzing your voice…</string>
+    <string name="analyze_status_mic_error">Microphone init failed — check permission</string>
+    <string name="analyze_status_too_few_samples">Too few samples — please sing for longer</string>
+    <string name="analyze_error_insufficient">Not enough data. Please sing sustained notes for at least 20–30 seconds.</string>
+
+    <!-- ══ Voice Types Screen ═══════════════════════════════════════════════ -->
+    <string name="voice_types_title">Voice Types</string>
+    <string name="voice_types_subtitle">Tap any voice type to explore its range, repertoire, and famous singers</string>
+    <string name="voice_types_label_range">Range</string>
+    <string name="voice_types_label_tessitura">Tessitura</string>
+    <string name="voice_types_label_passaggio">Passaggio</string>
+    <string name="voice_types_label_famous_roles">Famous Roles</string>
+    <string name="voice_types_label_example_singers">Example Singers</string>
+    <string name="voice_types_cd_collapse">Collapse</string>
+    <string name="voice_types_cd_expand">Expand</string>
+
+    <!-- ══ Results Screen ══════════════════════════════════════════════════ -->
+    <string name="results_title">Your Results</string>
+    <string name="results_best_match_label">Best Match</string>
+    <string name="results_confidence_label">Classification confidence</string>
+    <string name="results_famous_roles_subheading">Famous roles for this voice</string>
+    <string name="results_section_range">Measured Range</string>
+    <string name="results_section_other_matches">Other Possible Matches</string>
+    <string name="results_stat_lowest">Lowest note detected</string>
+    <string name="results_stat_highest">Highest note detected</string>
+    <string name="results_stat_tessitura">Tessitura (comfortable zone)</string>
+    <string name="results_stat_passaggio">Estimated passaggio</string>
+    <string name="results_stat_samples">Valid pitch samples</string>
+    <string name="results_stat_percentile_range">P20–P80</string>
+    <!-- %1$.0f → duration in seconds, e.g. "42s session" -->
+    <string name="results_stat_session_format">%1$.0fs session</string>
+    <!-- %1$d → rank number, e.g. "#2" -->
+    <string name="results_runner_up_rank_format">#%1$d</string>
+    <!-- %1$d/%2$d → score/max, e.g. "11/14" -->
+    <string name="results_score_format">%1$d/%2$d</string>
+    <string name="results_btn_analyze_again">Analyze Again</string>
+    <string name="results_disclaimer">Fach classification also depends on timbre and vocal weight,
+        which require a trained ear. Use this as an informed starting point — not a definitive
+        diagnosis. A voice teacher will always give the most accurate assessment.</string>
+    <string name="results_cd_back">Back</string>
+
+    <!-- ══ Guide Screen ════════════════════════════════════════════════════ -->
+    <string name="guide_title">How to Use Diapason</string>
+    <string name="guide_subtitle">Follow these steps for the most accurate result</string>
+
+    <!-- Step 1 -->
+    <string name="guide_step1_title">Find a quiet room</string>
+    <string name="guide_step1_body">Background noise lowers the confidence of pitch detection.
+        Close windows, turn off fans, and move away from TVs or music.</string>
+
+    <!-- Step 2 -->
+    <string name="guide_step2_title">Warm up first</string>
+    <string name="guide_step2_body">Do 5–10 minutes of vocal warm-ups before starting.
+        Cold voices produce unreliable results and may not reach their true range extremes.</string>
+
+    <!-- Step 3 -->
+    <string name="guide_step3_title">Sing sustained notes</string>
+    <string name="guide_step3_body">Hold each note for at least 2–3 seconds. Diapason needs a
+        stable, sustained tone to detect pitch reliably — speech and slides between notes are
+        filtered out.</string>
+
+    <!-- Step 4 -->
+    <string name="guide_step4_title">Cover your full range</string>
+    <string name="guide_step4_body">Start at your lowest comfortable note and step upward
+        chromatically or by scale to your highest. Then come back down. This helps detect both
+        your absolute range and your passaggio (register break). Aim for at least 30–45 seconds
+        of singing.</string>
+
+    <!-- Step 5 -->
+    <string name="guide_step5_title">Press Stop and review</string>
+    <string name="guide_step5_body">Diapason will show your top voice type match with a confidence
+        score, your measured range, tessitura, and estimated passaggio. Full scoring detail is in
+        Logcat.</string>
+
+    <!-- What is Fach section -->
+    <string name="guide_fach_section_title">What is Fach?</string>
+    <string name="guide_fach_body1">\"Fach\" (pronounced /fax/, German for \"compartment\") is the
+        classical system used in opera houses to categorise singers by voice type. Knowing your
+        Fach helps you identify appropriate repertoire, protect your voice, and communicate with
+        casting directors and voice teachers.</string>
+    <string name="guide_fach_body2">Beyond just \"soprano\" or \"bass\", the Fach system
+        distinguishes 19+ subtypes based on range, tessitura (where the voice sits most
+        comfortably), passaggio (the register break between chest and head voice), and timbre
+        (tone colour).</string>
+
+    <!-- What Diapason Measures section -->
+    <string name="guide_measures_section_title">What Diapason Measures</string>
+    <string name="guide_measure_range_term">Absolute Range</string>
+    <string name="guide_measure_range_def">The lowest and highest clean pitch detected during
+        your session.</string>
+    <string name="guide_measure_tessitura_term">Tessitura</string>
+    <string name="guide_measure_tessitura_def">The 20th–80th percentile of your pitch samples —
+        where your voice naturally and comfortably spends most of its time.</string>
+    <string name="guide_measure_passaggio_term">Passaggio</string>
+    <string name="guide_measure_passaggio_def">Estimated from the zone of highest pitch instability
+        in your session — the bridge point between your chest and head registers.</string>
+
+    <!-- Limitation card -->
+    <string name="guide_limitation_title">What Diapason Cannot Measure</string>
+    <string name="guide_limitation_body">Timbre (tone colour) and vocal weight are essential to
+        accurate Fach classification but cannot be reliably measured by a phone microphone. A
+        Dramatic Soprano and a Lyric Soprano can hit the same notes — only a trained ear can
+        distinguish them. Use Diapason\'s result as a strong starting point, not a final
+        verdict.</string>
 </resources>

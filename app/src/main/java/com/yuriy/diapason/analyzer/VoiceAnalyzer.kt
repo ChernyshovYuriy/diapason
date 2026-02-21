@@ -18,6 +18,16 @@ private const val MIN_PITCH_HZ = 60f
 private const val MAX_PITCH_HZ = 2200f
 private const val MIN_YIN_CONFIDENCE = 0.80f
 
+/**
+ * Localised strings required by [VoiceAnalyzer].
+ * Resolved by the caller (e.g. [AnalyzeViewModel]) so this class stays context-free.
+ */
+data class VoiceAnalyzerStrings(
+    val listeningMessage: String,
+    val micInitError: String,
+    val tooFewSamples: String
+)
+
 class VoiceAnalyzer(private val scope: CoroutineScope) {
 
     var onPitchDetected: ((hz: Float, noteName: String) -> Unit)? = null
@@ -32,7 +42,7 @@ class VoiceAnalyzer(private val scope: CoroutineScope) {
     val isRunning: Boolean get() = analyzerJob?.isActive == true
 
     @SuppressLint("MissingPermission")
-    fun start() {
+    fun start(strings: VoiceAnalyzerStrings) {
         if (isRunning) return
         pitchSamples.clear()
         lastLoggedNote = ""
@@ -55,13 +65,13 @@ class VoiceAnalyzer(private val scope: CoroutineScope) {
 
         if (audioRecord?.state != AudioRecord.STATE_INITIALIZED) {
             Log.e(TAG, "AudioRecord failed to initialize")
-            onStatusUpdate?.invoke("Microphone init failed — check permission")
+            onStatusUpdate?.invoke(strings.micInitError)
             return
         }
 
         audioRecord?.startRecording()
         Log.i(TAG, "Session started — SR=$SAMPLE_RATE Hz, buffer=$bufferSize bytes")
-        onStatusUpdate?.invoke("Listening… sing from your lowest to highest note")
+        onStatusUpdate?.invoke(strings.listeningMessage)
 
         analyzerJob = scope.launch(Dispatchers.IO) {
             val audioBuffer = ShortArray(bufferSize / 2)
@@ -82,9 +92,7 @@ class VoiceAnalyzer(private val scope: CoroutineScope) {
                 if (frameCount % 10 == 0) {
                     Log.v(
                         TAG,
-                        "Frame $frameCount: pitch=${if (pitchHz > 0) "%.1fHz".format(pitchHz) else "—"} conf=${
-                            "%.3f".format(confidence)
-                        }"
+                        "Frame $frameCount: pitch=${if (pitchHz > 0) "%.1fHz".format(pitchHz) else "—"} conf=${"%.3f".format(confidence)}"
                     )
                 }
 
@@ -107,7 +115,7 @@ class VoiceAnalyzer(private val scope: CoroutineScope) {
         }
     }
 
-    fun stop(): VoiceProfile? {
+    fun stop(tooFewSamplesMessage: String): VoiceProfile? {
         if (!isRunning) return null
         analyzerJob?.cancel()
         audioRecord?.stop()
@@ -119,7 +127,7 @@ class VoiceAnalyzer(private val scope: CoroutineScope) {
 
         if (pitchSamples.size < 20) {
             Log.w(TAG, "Insufficient samples (${pitchSamples.size} < 20) — need more singing")
-            onStatusUpdate?.invoke("Too few samples — please sing for longer")
+            onStatusUpdate?.invoke(tooFewSamplesMessage)
             return null
         }
 
@@ -132,14 +140,8 @@ class VoiceAnalyzer(private val scope: CoroutineScope) {
 
         Log.i(
             TAG,
-            "Profile: min=${FachClassifier.hzToNoteName(minHz)} max=${
-                FachClassifier.hzToNoteName(maxHz)
-            } " +
-                    "tess=${FachClassifier.hzToNoteName(tessLow)}–${
-                        FachClassifier.hzToNoteName(
-                            tessHigh
-                        )
-                    } " +
+            "Profile: min=${FachClassifier.hzToNoteName(minHz)} max=${FachClassifier.hzToNoteName(maxHz)} " +
+                    "tess=${FachClassifier.hzToNoteName(tessLow)}–${FachClassifier.hzToNoteName(tessHigh)} " +
                     "pass=${FachClassifier.hzToNoteName(passaggio)}"
         )
 

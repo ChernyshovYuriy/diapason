@@ -30,9 +30,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yuriy.diapason.R
 import com.yuriy.diapason.analyzer.FachClassifier
 import com.yuriy.diapason.analyzer.FachMatch
 import com.yuriy.diapason.analyzer.VoiceProfile
@@ -48,10 +50,13 @@ fun ResultsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Your Results") },
+                title = { Text(stringResource(R.string.results_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.results_cd_back)
+                        )
                     }
                 }
             )
@@ -74,14 +79,14 @@ fun ResultsScreen(
             Spacer(Modifier.height(16.dp))
 
             // ── Range statistics ──────────────────────────────────────────
-            SectionLabel("Measured Range")
+            SectionLabel(stringResource(R.string.results_section_range))
             RangeStatsCard(profile = profile)
 
             Spacer(Modifier.height(16.dp))
 
             // ── Runner-up matches ─────────────────────────────────────────
             if (matches.size > 1) {
-                SectionLabel("Other Possible Matches")
+                SectionLabel(stringResource(R.string.results_section_other_matches))
                 matches.drop(1).take(4).forEachIndexed { index, match ->
                     RunnerUpRow(rank = index + 2, match = match)
                     if (index < 3) HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
@@ -106,7 +111,7 @@ fun ResultsScreen(
                     Icons.Filled.Refresh, contentDescription = null,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                Text("Analyze Again")
+                Text(stringResource(R.string.results_btn_analyze_again))
             }
 
             Spacer(Modifier.height(32.dp))
@@ -137,7 +142,7 @@ private fun TopMatchCard(match: FachMatch) {
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = "Best Match",
+                text = stringResource(R.string.results_best_match_label),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
             )
@@ -163,16 +168,17 @@ private fun TopMatchCard(match: FachMatch) {
             )
             Spacer(Modifier.height(10.dp))
 
-            // Confidence bar
             val pct = match.score.toFloat() / match.maxScore.toFloat()
-            ConfidenceBar(label = "Classification confidence", fraction = pct)
+            ConfidenceBar(
+                label = stringResource(R.string.results_confidence_label),
+                fraction = pct
+            )
 
             Spacer(Modifier.height(14.dp))
 
-            // Famous roles
             if (match.fach.famousRoles.isNotEmpty()) {
                 Text(
-                    text = "Famous roles for this voice",
+                    text = stringResource(R.string.results_famous_roles_subheading),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f),
                     modifier = Modifier.padding(bottom = 4.dp)
@@ -200,33 +206,35 @@ private fun RangeStatsCard(profile: VoiceProfile) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             StatRow(
-                "Lowest note detected", FachClassifier.hzToNoteName(profile.absoluteMinHz),
-                "%.0f Hz".format(profile.absoluteMinHz)
+                label = stringResource(R.string.results_stat_lowest),
+                value = FachClassifier.hzToNoteName(profile.absoluteMinHz),
+                sub = "%.0f Hz".format(profile.absoluteMinHz)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
-                "Highest note detected", FachClassifier.hzToNoteName(profile.absoluteMaxHz),
-                "%.0f Hz".format(profile.absoluteMaxHz)
+                label = stringResource(R.string.results_stat_highest),
+                value = FachClassifier.hzToNoteName(profile.absoluteMaxHz),
+                sub = "%.0f Hz".format(profile.absoluteMaxHz)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
-                "Tessitura (comfortable zone)",
-                "${FachClassifier.hzToNoteName(profile.tessituraLowHz)} – ${
-                    FachClassifier.hzToNoteName(
-                        profile.tessituraHighHz
-                    )
+                label = stringResource(R.string.results_stat_tessitura),
+                value = "${FachClassifier.hzToNoteName(profile.tessituraLowHz)} – ${
+                    FachClassifier.hzToNoteName(profile.tessituraHighHz)
                 }",
-                "P20–P80"
+                sub = stringResource(R.string.results_stat_percentile_range)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
-                "Estimated passaggio", FachClassifier.hzToNoteName(profile.estimatedPassaggioHz),
-                "%.0f Hz".format(profile.estimatedPassaggioHz)
+                label = stringResource(R.string.results_stat_passaggio),
+                value = FachClassifier.hzToNoteName(profile.estimatedPassaggioHz),
+                sub = "%.0f Hz".format(profile.estimatedPassaggioHz)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
-                "Valid pitch samples", profile.sampleCount.toString(),
-                "%.0fs session".format(profile.durationSeconds)
+                label = stringResource(R.string.results_stat_samples),
+                value = profile.sampleCount.toString(),
+                sub = stringResource(R.string.results_stat_session_format, profile.durationSeconds)
             )
         }
     }
@@ -240,7 +248,8 @@ private fun StatRow(label: String, value: String, sub: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            label, style = MaterialTheme.typography.bodySmall,
+            label,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.weight(1f)
         )
@@ -248,7 +257,8 @@ private fun StatRow(label: String, value: String, sub: String) {
         Column(horizontalAlignment = Alignment.End) {
             Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
             Text(
-                sub, style = MaterialTheme.typography.labelSmall,
+                sub,
+                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )
         }
@@ -264,7 +274,7 @@ private fun RunnerUpRow(rank: Int, match: FachMatch) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "#$rank",
+            text = stringResource(R.string.results_runner_up_rank_format, rank),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             modifier = Modifier.width(32.dp)
@@ -276,12 +286,13 @@ private fun RunnerUpRow(rank: Int, match: FachMatch) {
                 fontWeight = FontWeight.Medium
             )
             Text(
-                match.fach.category, style = MaterialTheme.typography.bodySmall,
+                match.fach.category,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Text(
-            text = "${match.score}/${match.maxScore}",
+            text = stringResource(R.string.results_score_format, match.score, match.maxScore),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -293,11 +304,13 @@ private fun ConfidenceBar(label: String, fraction: Float) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
-                label, style = MaterialTheme.typography.labelSmall,
+                label,
+                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
             )
             Text(
-                "${(fraction * 100).toInt()}%", style = MaterialTheme.typography.labelSmall,
+                "${(fraction * 100).toInt()}%",
+                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
@@ -307,15 +320,6 @@ private fun ConfidenceBar(label: String, fraction: Float) {
                 .fillMaxWidth()
                 .height(6.dp)
         ) {
-            androidx.compose.foundation.layout.Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp)
-                    .then(
-                        Modifier.fillMaxWidth(fraction)
-                    )
-            )
-            // Background track
             androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
                 drawRoundRect(
                     color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.20f),
@@ -347,9 +351,7 @@ private fun DisclaimerCard() {
                 modifier = Modifier.padding(top = 2.dp, end = 10.dp)
             )
             Text(
-                text = "Fach classification also depends on timbre and vocal weight, which require a trained ear. " +
-                        "Use this as an informed starting point — not a definitive diagnosis. " +
-                        "A voice teacher will always give the most accurate assessment.",
+                text = stringResource(R.string.results_disclaimer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.85f)
             )

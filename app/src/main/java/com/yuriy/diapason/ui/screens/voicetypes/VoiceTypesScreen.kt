@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.MusicNote
@@ -34,8 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yuriy.diapason.R
 import com.yuriy.diapason.analyzer.ALL_FACH
 import com.yuriy.diapason.analyzer.FachClassifier
 import com.yuriy.diapason.analyzer.FachDefinition
@@ -61,12 +62,12 @@ fun VoiceTypesScreen() {
         item {
             Spacer(Modifier.height(20.dp))
             Text(
-                "Voice Types",
+                stringResource(R.string.voice_types_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                "Tap any voice type to explore its range, repertoire, and famous singers",
+                stringResource(R.string.voice_types_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp, bottom = 16.dp)
@@ -81,8 +82,8 @@ fun VoiceTypesScreen() {
                 CategoryHeader(category = category)
             }
 
-            items(fachwList, key = { it.name }) { fach ->
-                FachCard(fach = fach)
+            items(fachwList.size, key = { fachwList[it].name }) { index ->
+                FachCard(fach = fachwList[index])
                 Spacer(Modifier.height(8.dp))
             }
 
@@ -140,9 +141,7 @@ private fun FachCard(fach: FachDefinition) {
                     )
                     Text(
                         text = "${FachClassifier.hzToNoteName(fach.rangeMinHz)} – ${
-                            FachClassifier.hzToNoteName(
-                                fach.rangeMaxHz
-                            )
+                            FachClassifier.hzToNoteName(fach.rangeMaxHz)
                         }",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary
@@ -150,7 +149,10 @@ private fun FachCard(fach: FachDefinition) {
                 }
                 Icon(
                     Icons.Filled.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    contentDescription = stringResource(
+                        if (expanded) R.string.voice_types_cd_collapse
+                        else R.string.voice_types_cd_expand
+                    ),
                     modifier = Modifier
                         .size(22.dp)
                         .rotate(arrowRotation),
@@ -167,7 +169,6 @@ private fun FachCard(fach: FachDefinition) {
                 Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)) {
                     HorizontalDivider(modifier = Modifier.padding(bottom = 10.dp))
 
-                    // Description
                     Text(
                         fach.description,
                         style = MaterialTheme.typography.bodySmall,
@@ -176,13 +177,15 @@ private fun FachCard(fach: FachDefinition) {
 
                     Spacer(Modifier.height(10.dp))
 
-                    // Range grid
                     RangeGrid(fach)
 
                     // Famous roles
                     if (fach.famousRoles.isNotEmpty()) {
                         Spacer(Modifier.height(10.dp))
-                        DetailSectionLabel(icon = Icons.Filled.MusicNote, label = "Famous Roles")
+                        DetailSectionLabel(
+                            icon = Icons.Filled.MusicNote,
+                            label = stringResource(R.string.voice_types_label_famous_roles)
+                        )
                         fach.famousRoles.forEach { role ->
                             Text(
                                 "• $role",
@@ -196,7 +199,10 @@ private fun FachCard(fach: FachDefinition) {
                     // Example singers
                     if (fach.exampleSingers.isNotEmpty()) {
                         Spacer(Modifier.height(10.dp))
-                        DetailSectionLabel(icon = Icons.Filled.Person, label = "Example Singers")
+                        DetailSectionLabel(
+                            icon = Icons.Filled.Person,
+                            label = stringResource(R.string.voice_types_label_example_singers)
+                        )
                         Text(
                             text = fach.exampleSingers.joinToString(" · "),
                             style = MaterialTheme.typography.bodySmall,
@@ -216,18 +222,21 @@ private fun RangeGrid(fach: FachDefinition) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         RangePill(
-            "Range",
-            "${FachClassifier.hzToNoteName(fach.rangeMinHz)} – ${FachClassifier.hzToNoteName(fach.rangeMaxHz)}"
-        )
-        RangePill(
-            "Tessitura",
-            "${FachClassifier.hzToNoteName(fach.tessituraMinHz)} – ${
-                FachClassifier.hzToNoteName(
-                    fach.tessituraMaxHz
-                )
+            label = stringResource(R.string.voice_types_label_range),
+            value = "${FachClassifier.hzToNoteName(fach.rangeMinHz)} – ${
+                FachClassifier.hzToNoteName(fach.rangeMaxHz)
             }"
         )
-        RangePill("Passaggio", FachClassifier.hzToNoteName(fach.passaggioHz))
+        RangePill(
+            label = stringResource(R.string.voice_types_label_tessitura),
+            value = "${FachClassifier.hzToNoteName(fach.tessituraMinHz)} – ${
+                FachClassifier.hzToNoteName(fach.tessituraMaxHz)
+            }"
+        )
+        RangePill(
+            label = stringResource(R.string.voice_types_label_passaggio),
+            value = FachClassifier.hzToNoteName(fach.passaggioHz)
+        )
     }
 }
 
@@ -235,11 +244,14 @@ private fun RangeGrid(fach: FachDefinition) {
 private fun RangePill(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            value, style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold
+            value,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.SemiBold
         )
         Text(
-            label, style = MaterialTheme.typography.labelSmall,
+            label,
+            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
         )
     }
@@ -256,7 +268,8 @@ private fun DetailSectionLabel(
     ) {
         Icon(
             icon, contentDescription = null,
-            modifier = Modifier.size(14.dp), tint = MaterialTheme.colorScheme.primary
+            modifier = Modifier.size(14.dp),
+            tint = MaterialTheme.colorScheme.primary
         )
         Text(
             text = "  $label",

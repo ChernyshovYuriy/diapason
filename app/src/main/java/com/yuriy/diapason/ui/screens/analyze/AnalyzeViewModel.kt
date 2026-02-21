@@ -1,11 +1,14 @@
 package com.yuriy.diapason.ui.screens.analyze
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.yuriy.diapason.R
 import com.yuriy.diapason.analyzer.FachClassifier
 import com.yuriy.diapason.analyzer.FachMatch
 import com.yuriy.diapason.analyzer.VoiceAnalyzer
+import com.yuriy.diapason.analyzer.VoiceAnalyzerStrings
 import com.yuriy.diapason.analyzer.VoiceProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +28,7 @@ sealed interface AnalyzeUiState {
         val currentNote: String = "—",
         val currentHz: Float = 0f,
         val sampleCount: Int = 0,
-        val statusMessage: String = "Listening… sing from your lowest to highest note, then back"
+        val statusMessage: String = ""
     ) : AnalyzeUiState
 
     /** Processing finished but resulted in insufficient data */
@@ -40,7 +43,9 @@ sealed interface AnalyzeUiState {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-class AnalyzeViewModel : ViewModel() {
+class AnalyzeViewModel(application: Application) : AndroidViewModel(application) {
+
+    private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
 
     private val _uiState = MutableStateFlow<AnalyzeUiState>(AnalyzeUiState.Idle)
     val uiState: StateFlow<AnalyzeUiState> = _uiState.asStateFlow()
@@ -74,8 +79,16 @@ class AnalyzeViewModel : ViewModel() {
 
     fun startRecording() {
         Log.i(TAG, "startRecording()")
-        _uiState.value = AnalyzeUiState.Recording()
-        analyzer.start()
+        _uiState.value = AnalyzeUiState.Recording(
+            statusMessage = getString(R.string.analyze_status_listening)
+        )
+        analyzer.start(
+            VoiceAnalyzerStrings(
+                listeningMessage = getString(R.string.analyze_status_listening_short),
+                micInitError = getString(R.string.analyze_status_mic_error),
+                tooFewSamples = getString(R.string.analyze_status_too_few_samples)
+            )
+        )
     }
 
     fun stopRecording() {
@@ -83,15 +96,17 @@ class AnalyzeViewModel : ViewModel() {
         if (!analyzer.isRunning) return
 
         _uiState.value = AnalyzeUiState.Recording(
-            statusMessage = "Analyzing your voice…",
+            statusMessage = getString(R.string.analyze_status_analyzing),
             sampleCount = (uiState.value as? AnalyzeUiState.Recording)?.sampleCount ?: 0
         )
 
-        val profile = analyzer.stop()
+        val profile = analyzer.stop(
+            tooFewSamplesMessage = getString(R.string.analyze_status_too_few_samples)
+        )
 
         if (profile == null) {
             _uiState.value = AnalyzeUiState.InsufficientData(
-                "Not enough data. Please sing sustained notes for at least 20–30 seconds."
+                getString(R.string.analyze_error_insufficient)
             )
             return
         }
@@ -108,6 +123,6 @@ class AnalyzeViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        if (analyzer.isRunning) analyzer.stop()
+        if (analyzer.isRunning) analyzer.stop(getString(R.string.analyze_status_too_few_samples))
     }
 }

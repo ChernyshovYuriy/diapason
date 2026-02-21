@@ -28,8 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yuriy.diapason.R
 
 @Composable
 fun GuideScreen() {
@@ -42,12 +44,12 @@ fun GuideScreen() {
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = "How to Use Diapason",
+            text = stringResource(R.string.guide_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Follow these steps for the most accurate result",
+            text = stringResource(R.string.guide_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 4.dp, bottom = 20.dp)
@@ -57,43 +59,32 @@ fun GuideScreen() {
         StepCard(
             number = "1",
             icon = Icons.Filled.VolumeMute,
-            title = "Find a quiet room",
-            body = "Background noise lowers the confidence of pitch detection. " +
-                    "Close windows, turn off fans, and move away from TVs or music."
+            title = stringResource(R.string.guide_step1_title),
+            body = stringResource(R.string.guide_step1_body)
         )
         StepCard(
             number = "2",
             icon = Icons.Filled.MusicNote,
-            title = "Warm up first",
-            body = "Do 5–10 minutes of vocal warm-ups before starting. " +
-                    "Cold voices produce unreliable results and may not reach their true range " +
-                    "extremes."
+            title = stringResource(R.string.guide_step2_title),
+            body = stringResource(R.string.guide_step2_body)
         )
         StepCard(
             number = "3",
             icon = Icons.Filled.GraphicEq,
-            title = "Sing sustained notes",
-            body = "Hold each note for at least 2–3 seconds. Diapason needs a stable, sustained " +
-                    "tone " +
-                    "to detect pitch reliably — speech and slides between notes are filtered out."
+            title = stringResource(R.string.guide_step3_title),
+            body = stringResource(R.string.guide_step3_body)
         )
         StepCard(
             number = "4",
             icon = Icons.Filled.Timer,
-            title = "Cover your full range",
-            body = "Start at your lowest comfortable note and step upward chromatically or by " +
-                    "scale to your highest. " +
-                    "Then come back down. This helps detect both your absolute range and your " +
-                    "passaggio (register break). " +
-                    "Aim for at least 30–45 seconds of singing."
+            title = stringResource(R.string.guide_step4_title),
+            body = stringResource(R.string.guide_step4_body)
         )
         StepCard(
             number = "5",
             icon = Icons.Filled.CheckCircle,
-            title = "Press Stop and review",
-            body = "Diapason will show your top voice type match with a confidence score, " +
-                    "your measured range, tessitura, and estimated passaggio. Full scoring " +
-                    "detail is in Logcat."
+            title = stringResource(R.string.guide_step5_title),
+            body = stringResource(R.string.guide_step5_body)
         )
 
         Spacer(Modifier.height(20.dp))
@@ -102,24 +93,19 @@ fun GuideScreen() {
 
         // ── What is Fach ──────────────────────────────────────────────────────
         Text(
-            text = "What is Fach?",
+            text = stringResource(R.string.guide_fach_section_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.height(10.dp))
         Text(
-            text = "\"Fach\" (pronounced /fax/, German for \"compartment\") is the classical system " +
-                    "used in opera houses to categorise singers by voice type. Knowing your Fach helps " +
-                    "you identify appropriate repertoire, protect your voice, and communicate with " +
-                    "casting directors and voice teachers.",
+            text = stringResource(R.string.guide_fach_body1),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = "Beyond just \"soprano\" or \"bass\", the Fach system distinguishes 19+ subtypes " +
-                    "based on range, tessitura (where the voice sits most comfortably), passaggio " +
-                    "(the register break between chest and head voice), and timbre (tone colour).",
+            text = stringResource(R.string.guide_fach_body2),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -130,25 +116,23 @@ fun GuideScreen() {
 
         // ── What Diapason measures ────────────────────────────────────────────
         Text(
-            text = "What Diapason Measures",
+            text = stringResource(R.string.guide_measures_section_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.height(10.dp))
 
         MeasurementRow(
-            term = "Absolute Range",
-            def = "The lowest and highest clean pitch detected during your session."
+            term = stringResource(R.string.guide_measure_range_term),
+            def = stringResource(R.string.guide_measure_range_def)
         )
         MeasurementRow(
-            term = "Tessitura",
-            def = "The 20th–80th percentile of your pitch samples — where your voice naturally " +
-                    "and comfortably spends most of its time."
+            term = stringResource(R.string.guide_measure_tessitura_term),
+            def = stringResource(R.string.guide_measure_tessitura_def)
         )
         MeasurementRow(
-            term = "Passaggio",
-            def = "Estimated from the zone of highest pitch instability in your session — the " +
-                    "bridge point between your chest and head registers."
+            term = stringResource(R.string.guide_measure_passaggio_term),
+            def = stringResource(R.string.guide_measure_passaggio_def)
         )
 
         Spacer(Modifier.height(20.dp))
@@ -174,17 +158,14 @@ fun GuideScreen() {
                 Spacer(Modifier.width(10.dp))
                 Column {
                     Text(
-                        text = "What Diapason Cannot Measure",
+                        text = stringResource(R.string.guide_limitation_title),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onErrorContainer,
                         fontWeight = FontWeight.SemiBold
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        text = "Timbre (tone colour) and vocal weight are essential to accurate Fach classification " +
-                                "but cannot be reliably measured by a phone microphone. A Dramatic Soprano and a Lyric Soprano " +
-                                "can hit the same notes — only a trained ear can distinguish them. " +
-                                "Use Diapason's result as a strong starting point, not a final verdict.",
+                        text = stringResource(R.string.guide_limitation_body),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
                     )
@@ -207,7 +188,6 @@ private fun StepCard(number: String, icon: ImageVector, title: String, body: Str
             .padding(bottom = 12.dp)
     ) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.Top) {
-            // Step number badge
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.size(32.dp)
@@ -218,8 +198,10 @@ private fun StepCard(number: String, icon: ImageVector, title: String, body: Str
                     verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
                 ) {
                     Text(
-                        number, style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.Bold
+                        number,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
@@ -240,7 +222,8 @@ private fun StepCard(number: String, icon: ImageVector, title: String, body: Str
                 }
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    body, style = MaterialTheme.typography.bodySmall,
+                    body,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -252,11 +235,14 @@ private fun StepCard(number: String, icon: ImageVector, title: String, body: Str
 private fun MeasurementRow(term: String, def: String) {
     Column(modifier = Modifier.padding(bottom = 12.dp)) {
         Text(
-            term, style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold
+            term,
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.SemiBold
         )
         Text(
-            def, style = MaterialTheme.typography.bodySmall,
+            def,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 2.dp)
         )
