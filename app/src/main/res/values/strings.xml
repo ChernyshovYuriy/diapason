@@ -148,7 +148,7 @@
     <string name="about_creator_voice_taxonomy_value">German Fach system — 19 voice categories</string>
     <string name="about_section_localization">Languages &amp; Localisation</string>
     <string name="about_localization_current_language">Currently English only</string>
-    <string name="about_localization_plan">Localisation is planned. Android's standard string resource system (res/values-xx/strings.xml) will handle static UI text once translations are ready.</string>
+    <string name="about_localization_plan">Localisation is planned. Android\'s standard string resource system (res/values-xx/strings.xml) will handle static UI text once translations are ready.</string>
     <string name="about_localization_recommended">Recommended translation approach:</string>
     <string name="about_translation_android_name">Android built-in (strings.xml)</string>
     <string name="about_translation_android_detail">Free · zero runtime cost · best for static UI strings. Add res/values-de/, values-it/, etc. No API key needed.</string>
