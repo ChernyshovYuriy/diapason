@@ -188,7 +188,7 @@ private fun FachCard(fach: FachDefinition) {
                         )
                         fach.famousRoles.forEach { role ->
                             Text(
-                                "• $role",
+                                stringResource(R.string.common_bullet_item, role),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.padding(top = 2.dp)
@@ -204,7 +204,7 @@ private fun FachCard(fach: FachDefinition) {
                             label = stringResource(R.string.voice_types_label_example_singers)
                         )
                         Text(
-                            text = fach.exampleSingers.joinToString(" · "),
+                            text = fach.exampleSingers.joinToString(stringResource(R.string.voice_types_separator_dot)),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -272,7 +272,7 @@ private fun DetailSectionLabel(
             tint = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "  $label",
+            text = stringResource(R.string.voice_types_detail_label_format, label),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.SemiBold

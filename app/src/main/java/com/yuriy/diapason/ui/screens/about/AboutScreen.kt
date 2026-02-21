@@ -29,16 +29,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Keep these in sync with app/build.gradle.kts → versionName / versionCode
-// ─────────────────────────────────────────────────────────────────────────────
-private const val APP_VERSION = "1.0"
-private const val APP_BUILD = "1"
+import com.yuriy.diapason.BuildConfig
+import com.yuriy.diapason.R
 
 @Composable
 fun AboutScreen() {
@@ -63,19 +60,23 @@ fun AboutScreen() {
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Diapason",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = "Voice Range Classifier",
+                text = stringResource(R.string.about_hero_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = "Version $APP_VERSION (build $APP_BUILD)",
+                text = stringResource(
+                    R.string.about_version_format,
+                    BuildConfig.VERSION_NAME,
+                    BuildConfig.VERSION_CODE
+                ),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
             )
@@ -86,20 +87,15 @@ fun AboutScreen() {
         Spacer(Modifier.height(20.dp))
 
         // ── About the app ─────────────────────────────────────────────────────
-        SectionTitle("About")
+        SectionTitle(stringResource(R.string.about_section_about))
         Text(
-            text = "Diapason helps singers and voice teachers explore and categorise vocal range " +
-                    "using the classical German Fach system. It listens to sustained notes through " +
-                    "your device microphone, builds an acoustic profile in real time, and matches " +
-                    "it against 19 documented voice types — from Coloratura Soprano to Contrabass Oktavist.",
+            text = stringResource(R.string.about_body_1),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Text(
-            text = "The app is intended as an educational starting point. Timbre and vocal weight — " +
-                    "essential for a definitive Fach — require a trained human ear and cannot be " +
-                    "captured by a microphone alone.",
+            text = stringResource(R.string.about_body_2),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -109,26 +105,26 @@ fun AboutScreen() {
         Spacer(Modifier.height(20.dp))
 
         // ── Creator ───────────────────────────────────────────────────────────
-        SectionTitle("Creator")
+        SectionTitle(stringResource(R.string.about_section_creator))
         InfoRow(
             icon = Icons.Filled.Person,
-            label = "Developer",
-            value = "Yuriy"
+            label = stringResource(R.string.about_creator_developer_label),
+            value = stringResource(R.string.about_creator_developer_value)
         )
         InfoRow(
             icon = Icons.Filled.Code,
-            label = "Stack",
-            value = "Kotlin · Jetpack Compose · Material 3"
+            label = stringResource(R.string.about_creator_stack_label),
+            value = stringResource(R.string.about_creator_stack_value)
         )
         InfoRow(
             icon = Icons.Filled.Science,
-            label = "Pitch detection",
-            value = "YIN algorithm (de Cheveigné & Kawahara, JASA 2002)"
+            label = stringResource(R.string.about_creator_pitch_detection_label),
+            value = stringResource(R.string.about_creator_pitch_detection_value)
         )
         InfoRow(
             icon = Icons.Filled.MusicNote,
-            label = "Voice taxonomy",
-            value = "German Fach system — 19 voice categories"
+            label = stringResource(R.string.about_creator_voice_taxonomy_label),
+            value = stringResource(R.string.about_creator_voice_taxonomy_value)
         )
 
         Spacer(Modifier.height(20.dp))
@@ -136,7 +132,7 @@ fun AboutScreen() {
         Spacer(Modifier.height(20.dp))
 
         // ── Localisation ──────────────────────────────────────────────────────
-        SectionTitle("Languages & Localisation")
+        SectionTitle(stringResource(R.string.about_section_localization))
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
@@ -153,48 +149,40 @@ fun AboutScreen() {
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        "Currently English only",
+                        stringResource(R.string.about_localization_current_language),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Localisation is planned. Android's standard string resource system " +
-                            "(res/values-xx/strings.xml) will handle static UI text once translations are ready.",
+                    text = stringResource(R.string.about_localization_plan),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    text = "Recommended translation approach:",
+                    text = stringResource(R.string.about_localization_recommended),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(Modifier.height(6.dp))
                 TranslationOption(
-                    name = "Android built-in (strings.xml)",
-                    detail = "Free · zero runtime cost · best for static UI strings. " +
-                            "Add res/values-de/, values-it/, etc. No API key needed."
+                    name = stringResource(R.string.about_translation_android_name),
+                    detail = stringResource(R.string.about_translation_android_detail)
                 )
                 TranslationOption(
-                    name = "Google ML Kit — Translation",
-                    detail = "Free · fully on-device · 58 languages. " +
-                            "Good for translating dynamic content (role names, descriptions) " +
-                            "without network access. Add dependency: com.google.mlkit:translate"
+                    name = stringResource(R.string.about_translation_mlkit_name),
+                    detail = stringResource(R.string.about_translation_mlkit_detail)
                 )
                 TranslationOption(
-                    name = "Google Cloud Translation API",
-                    detail = "Pay-per-use · 100+ languages · highest accuracy. " +
-                            "Requires network and a GCP API key. Best if you need " +
-                            "server-side pre-translation of the Fach database."
+                    name = stringResource(R.string.about_translation_cloud_name),
+                    detail = stringResource(R.string.about_translation_cloud_detail)
                 )
                 TranslationOption(
-                    name = "DeepL API (Free tier)",
-                    detail = "500 000 chars/month free · 31 languages · considered more " +
-                            "nuanced than Google for European languages. " +
-                            "REST API, easy to integrate."
+                    name = stringResource(R.string.about_translation_deepl_name),
+                    detail = stringResource(R.string.about_translation_deepl_detail)
                 )
             }
         }
@@ -204,16 +192,16 @@ fun AboutScreen() {
         Spacer(Modifier.height(20.dp))
 
         // ── Open source references ─────────────────────────────────────────────
-        SectionTitle("References")
+        SectionTitle(stringResource(R.string.about_section_references))
         InfoRow(
             icon = Icons.Filled.Science,
-            label = "YIN paper",
-            value = "de Cheveigné & Kawahara — JASA 111(4), 2002"
+            label = stringResource(R.string.about_reference_yin_label),
+            value = stringResource(R.string.about_reference_yin_value)
         )
         InfoRow(
             icon = Icons.Filled.MusicNote,
-            label = "Fach taxonomy",
-            value = "Kloiber / Maehder / Melchert — Handbuch der Oper"
+            label = stringResource(R.string.about_reference_fach_label),
+            value = stringResource(R.string.about_reference_fach_value)
         )
 
         Spacer(Modifier.height(20.dp))
@@ -221,7 +209,7 @@ fun AboutScreen() {
         Spacer(Modifier.height(20.dp))
 
         // ── Feedback ──────────────────────────────────────────────────────────
-        SectionTitle("Feedback & Bug Reports")
+        SectionTitle(stringResource(R.string.about_section_feedback))
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
@@ -240,7 +228,7 @@ fun AboutScreen() {
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    text = "Found a bug or have a feature request? Open an issue on the project repository.",
+                    text = stringResource(R.string.about_feedback_body),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -251,7 +239,7 @@ fun AboutScreen() {
 
         // ── Footer ────────────────────────────────────────────────────────────
         Text(
-            text = "© 2025 Yuriy · Diapason $APP_VERSION",
+            text = stringResource(R.string.about_footer, BuildConfig.VERSION_NAME),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f),
             modifier = Modifier.fillMaxWidth(),
@@ -312,7 +300,7 @@ private fun InfoRow(icon: ImageVector, label: String, value: String) {
 private fun TranslationOption(name: String, detail: String) {
     Column(modifier = Modifier.padding(bottom = 8.dp)) {
         Text(
-            "• $name",
+            stringResource(R.string.about_translation_item_format, name),
             style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface

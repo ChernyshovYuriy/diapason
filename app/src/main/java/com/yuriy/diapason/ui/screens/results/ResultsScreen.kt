@@ -191,7 +191,7 @@ private fun TopMatchCard(match: FachMatch) {
                 )
                 match.fach.famousRoles.forEach { role ->
                     Text(
-                        text = "• $role",
+                        text = stringResource(R.string.common_bullet_item, role),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f),
                         modifier = Modifier
@@ -214,13 +214,13 @@ private fun RangeStatsCard(profile: VoiceProfile) {
             StatRow(
                 label = stringResource(R.string.results_stat_lowest),
                 value = FachClassifier.hzToNoteName(profile.absoluteMinHz),
-                sub = "%.0f Hz".format(profile.absoluteMinHz)
+                sub = stringResource(R.string.results_hz_format, profile.absoluteMinHz)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
                 label = stringResource(R.string.results_stat_highest),
                 value = FachClassifier.hzToNoteName(profile.absoluteMaxHz),
-                sub = "%.0f Hz".format(profile.absoluteMaxHz)
+                sub = stringResource(R.string.results_hz_format, profile.absoluteMaxHz)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
@@ -234,7 +234,7 @@ private fun RangeStatsCard(profile: VoiceProfile) {
             StatRow(
                 label = stringResource(R.string.results_stat_passaggio),
                 value = FachClassifier.hzToNoteName(profile.estimatedPassaggioHz),
-                sub = "%.0f Hz".format(profile.estimatedPassaggioHz)
+                sub = stringResource(R.string.results_hz_format, profile.estimatedPassaggioHz)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
             StatRow(
@@ -318,7 +318,7 @@ private fun ConfidenceBar(label: String, fraction: Float) {
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
             )
             Text(
-                "${(fraction * 100).toInt()}%",
+                stringResource(R.string.results_percent_format, (fraction * 100).toInt()),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
