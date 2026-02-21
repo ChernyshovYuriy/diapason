@@ -86,12 +86,7 @@ fun DiapasonApp() {
                 AnalyzeScreen(
                     viewModel = analyzeViewModel,
                     onNavigateToResults = {
-                        // Use singleTop so the back-stack only ever has one
-                        // Results entry — both the "new result" auto-navigate
-                        // and the "View last result" banner share this path.
-                        navController.navigate(Screen.Results.route) {
-                            launchSingleTop = true
-                        }
+                        navController.navigate(Screen.Results.route)
                     }
                 )
             }
@@ -124,7 +119,12 @@ fun DiapasonApp() {
                 ResultsScreen(
                     profile = result.profile,
                     matches = result.matches,
-                    onBack = { navController.popBackStack() },
+                    onBack = {
+                        // Reset state BEFORE popping so AnalyzeScreen's LaunchedEffect
+                        // does not see ResultReady and immediately re-navigate to Results.
+                        analyzeViewModel.resetToIdle()
+                        navController.popBackStack()
+                    },
                     onAnalyzeAgain = {
                         analyzeViewModel.resetToIdle()
                         navController.navigate(Screen.Analyze.route) {

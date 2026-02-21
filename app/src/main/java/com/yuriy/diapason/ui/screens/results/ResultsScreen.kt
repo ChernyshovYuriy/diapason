@@ -1,5 +1,6 @@
 package com.yuriy.diapason.ui.screens.results
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,6 +48,9 @@ fun ResultsScreen(
     onBack: () -> Unit,
     onAnalyzeAgain: () -> Unit
 ) {
+
+    BackHandler(onBack = onBack)
+
     Scaffold(
         topBar = {
             TopAppBar(
