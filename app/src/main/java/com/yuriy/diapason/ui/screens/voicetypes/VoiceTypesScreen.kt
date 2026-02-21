@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.MusicNote
@@ -80,11 +81,10 @@ fun VoiceTypesScreen() {
                 CategoryHeader(category = category)
             }
 
-            // TODO
-//            items(fachwList, key = { it.name }) { fach ->
-//                FachCard(fach = fach)
-//                Spacer(Modifier.height(8.dp))
-//            }
+            items(fachwList, key = { it.name }) { fach ->
+                FachCard(fach = fach)
+                Spacer(Modifier.height(8.dp))
+            }
 
             item(key = "spacer_$category") {
                 Spacer(Modifier.height(8.dp))
