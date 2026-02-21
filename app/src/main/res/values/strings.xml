@@ -130,4 +130,48 @@
         Dramatic Soprano and a Lyric Soprano can hit the same notes — only a trained ear can
         distinguish them. Use Diapason\'s result as a strong starting point, not a final
         verdict.</string>
+
+    <!-- ══ About Screen ════════════════════════════════════════════════════ -->
+    <string name="about_hero_subtitle">Voice Range Classifier</string>
+    <string name="about_version_format">Version %1$s (build %2$d)</string>
+    <string name="about_section_about">About</string>
+    <string name="about_body_1">Diapason helps singers and voice teachers explore and categorise vocal range using the classical German Fach system. It listens to sustained notes through your device microphone, builds an acoustic profile in real time, and matches it against 19 documented voice types — from Coloratura Soprano to Contrabass Oktavist.</string>
+    <string name="about_body_2">The app is intended as an educational starting point. Timbre and vocal weight — essential for a definitive Fach — require a trained human ear and cannot be captured by a microphone alone.</string>
+    <string name="about_section_creator">Creator</string>
+    <string name="about_creator_developer_label">Developer</string>
+    <string name="about_creator_developer_value">Yuriy</string>
+    <string name="about_creator_stack_label">Stack</string>
+    <string name="about_creator_stack_value">Kotlin · Jetpack Compose · Material 3</string>
+    <string name="about_creator_pitch_detection_label">Pitch detection</string>
+    <string name="about_creator_pitch_detection_value">YIN algorithm (de Cheveigné &amp; Kawahara, JASA 2002)</string>
+    <string name="about_creator_voice_taxonomy_label">Voice taxonomy</string>
+    <string name="about_creator_voice_taxonomy_value">German Fach system — 19 voice categories</string>
+    <string name="about_section_localization">Languages &amp; Localisation</string>
+    <string name="about_localization_current_language">Currently English only</string>
+    <string name="about_localization_plan">Localisation is planned. Android's standard string resource system (res/values-xx/strings.xml) will handle static UI text once translations are ready.</string>
+    <string name="about_localization_recommended">Recommended translation approach:</string>
+    <string name="about_translation_android_name">Android built-in (strings.xml)</string>
+    <string name="about_translation_android_detail">Free · zero runtime cost · best for static UI strings. Add res/values-de/, values-it/, etc. No API key needed.</string>
+    <string name="about_translation_mlkit_name">Google ML Kit — Translation</string>
+    <string name="about_translation_mlkit_detail">Free · fully on-device · 58 languages. Good for translating dynamic content (role names, descriptions) without network access. Add dependency: com.google.mlkit:translate</string>
+    <string name="about_translation_cloud_name">Google Cloud Translation API</string>
+    <string name="about_translation_cloud_detail">Pay-per-use · 100+ languages · highest accuracy. Requires network and a GCP API key. Best if you need server-side pre-translation of the Fach database.</string>
+    <string name="about_translation_deepl_name">DeepL API (Free tier)</string>
+    <string name="about_translation_deepl_detail">500 000 chars/month free · 31 languages · considered more nuanced than Google for European languages. REST API, easy to integrate.</string>
+    <string name="about_section_references">References</string>
+    <string name="about_reference_yin_label">YIN paper</string>
+    <string name="about_reference_yin_value">de Cheveigné &amp; Kawahara — JASA 111(4), 2002</string>
+    <string name="about_reference_fach_label">Fach taxonomy</string>
+    <string name="about_reference_fach_value">Kloiber / Maehder / Melchert — Handbuch der Oper</string>
+    <string name="about_section_feedback">Feedback &amp; Bug Reports</string>
+    <string name="about_feedback_body">Found a bug or have a feature request? Open an issue on the project repository.</string>
+    <string name="about_footer">© 2025 Yuriy · Diapason %1$s</string>
+    <string name="about_translation_item_format">• %1$s</string>
+
+    <string name="common_bullet_item">• %1$s</string>
+    <string name="results_hz_format">%1$.0f Hz</string>
+    <string name="results_percent_format">%1$d%%</string>
+    <string name="voice_types_separator_dot"> · </string>
+    <string name="voice_types_detail_label_format">  %1$s</string>
+
 </resources>
