@@ -81,7 +81,7 @@ fun AnalyzeScreen(
             .fillMaxSize()
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.Top
     ) {
         Spacer(Modifier.height(32.dp))
 
@@ -112,6 +112,8 @@ fun AnalyzeScreen(
                 )
             }
         }
+
+        Spacer(Modifier.weight(1f))
 
         // ── Central pitch display ─────────────────────────────────────────────
         PitchDisplay(uiState = uiState)
