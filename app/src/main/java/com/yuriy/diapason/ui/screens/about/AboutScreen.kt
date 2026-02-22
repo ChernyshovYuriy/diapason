@@ -1,5 +1,6 @@
 package com.yuriy.diapason.ui.screens.about
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.GraphicEq
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.Card
@@ -30,11 +32,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.yuriy.diapason.BuildConfig
 import com.yuriy.diapason.R
 
@@ -46,6 +50,8 @@ fun AboutScreen() {
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
+        val context = LocalContext.current
+
         Spacer(Modifier.height(24.dp))
 
         // ── Hero ─────────────────────────────────────────────────────────────
@@ -187,11 +193,61 @@ fun AboutScreen() {
 
         // ── Privacy ───────────────────────────────────────────────────────────
         SectionTitle(stringResource(R.string.about_section_privacy))
-        InfoRow(
-            icon = Icons.Filled.Lock,
-            label = stringResource(R.string.about_privacy_policy_label),
-            value = stringResource(R.string.about_privacy_policy_value)
-        )
+        val privacyPolicyUrl = stringResource(R.string.about_privacy_policy_url)
+        Card(
+            onClick = {
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, privacyPolicyUrl.toUri())
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    // Ignore
+                }
+            },
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Filled.Lock,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.about_privacy_policy_label),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = stringResource(R.string.about_privacy_policy_value),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        text = stringResource(R.string.about_privacy_policy_cta),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                Icon(
+                    Icons.Filled.OpenInNew,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        }
 
         Spacer(Modifier.height(20.dp))
         HorizontalDivider()
