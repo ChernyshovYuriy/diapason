@@ -4,6 +4,7 @@ activityCompose = "1.12.4"
 agp = "9.0.1"
 composeBom = "2026.02.00"
 coreKtx = "1.17.0"
+firebaseBom = "34.9.0"
 kotlinxCoroutinesAndroid = "1.10.2"
 lifecycleViewmodelCompose = "2.10.0"
 kotlin = "2.3.10"
@@ -24,6 +25,9 @@ androidx-ui = { module = "androidx.compose.ui:ui" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 

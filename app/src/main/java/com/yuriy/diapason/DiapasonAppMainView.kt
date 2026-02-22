@@ -28,7 +28,7 @@ import com.yuriy.diapason.ui.screens.results.ResultsScreen
 import com.yuriy.diapason.ui.screens.voicetypes.VoiceTypesScreen
 
 @Composable
-fun DiapasonApp() {
+fun DiapasonAppMainView() {
 
     val navController = rememberNavController()
     // Activity-scoped so ResultsScreen can pull lastResult from the same instance
