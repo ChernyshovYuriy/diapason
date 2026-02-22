@@ -38,12 +38,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,6 +66,9 @@ fun AnalyzeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lastResult by viewModel.lastResultFlow.collectAsStateWithLifecycle()
+    val isRecording = uiState is AnalyzeUiState.Recording
+
+    KeepScreenOn(enabled = isRecording)
 
     // Auto-navigate when a new result is produced
     LaunchedEffect(uiState) {
@@ -169,8 +174,6 @@ fun AnalyzeScreen(
         Spacer(Modifier.weight(1f))
 
         // ── Start / Stop button ───────────────────────────────────────────────
-        val isRecording = uiState is AnalyzeUiState.Recording
-
         if (isRecording) {
             PulsingButton(
                 onClick = { viewModel.stopRecording() }
@@ -216,6 +219,20 @@ fun AnalyzeScreen(
         }
 
         Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun KeepScreenOn(enabled: Boolean) {
+    val view = LocalView.current
+
+    DisposableEffect(view, enabled) {
+        val previousValue = view.keepScreenOn
+        if (enabled) view.keepScreenOn = true
+
+        onDispose {
+            view.keepScreenOn = previousValue
+        }
     }
 }
 
