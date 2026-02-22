@@ -64,6 +64,7 @@ fun AnalyzeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lastResult by viewModel.lastResultFlow.collectAsStateWithLifecycle()
+    val isRecording = uiState is AnalyzeUiState.Recording
 
     // Auto-navigate when a new result is produced
     LaunchedEffect(uiState) {
@@ -169,8 +170,6 @@ fun AnalyzeScreen(
         Spacer(Modifier.weight(1f))
 
         // ── Start / Stop button ───────────────────────────────────────────────
-        val isRecording = uiState is AnalyzeUiState.Recording
-
         if (isRecording) {
             PulsingButton(
                 onClick = { viewModel.stopRecording() }
@@ -218,6 +217,7 @@ fun AnalyzeScreen(
         Spacer(Modifier.height(24.dp))
     }
 }
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Previous result banner
