@@ -160,30 +160,6 @@ fun AboutScreen() {
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(Modifier.height(10.dp))
-                Text(
-                    text = stringResource(R.string.about_localization_recommended),
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(Modifier.height(6.dp))
-                TranslationOption(
-                    name = stringResource(R.string.about_translation_android_name),
-                    detail = stringResource(R.string.about_translation_android_detail)
-                )
-                TranslationOption(
-                    name = stringResource(R.string.about_translation_mlkit_name),
-                    detail = stringResource(R.string.about_translation_mlkit_detail)
-                )
-                TranslationOption(
-                    name = stringResource(R.string.about_translation_cloud_name),
-                    detail = stringResource(R.string.about_translation_cloud_detail)
-                )
-                TranslationOption(
-                    name = stringResource(R.string.about_translation_deepl_name),
-                    detail = stringResource(R.string.about_translation_deepl_detail)
-                )
             }
         }
 
