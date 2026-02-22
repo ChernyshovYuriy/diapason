@@ -13,7 +13,7 @@ android {
         applicationId = "com.yuriy.diapason"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
     }
 
@@ -21,7 +21,7 @@ android {
         buildConfig = true
         compose = true
     }
-    
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
