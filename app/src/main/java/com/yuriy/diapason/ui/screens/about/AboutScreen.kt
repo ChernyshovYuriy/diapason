@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.GraphicEq
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Science
@@ -178,6 +179,18 @@ fun AboutScreen() {
             icon = Icons.Filled.MusicNote,
             label = stringResource(R.string.about_reference_fach_label),
             value = stringResource(R.string.about_reference_fach_value)
+        )
+
+        Spacer(Modifier.height(20.dp))
+        HorizontalDivider()
+        Spacer(Modifier.height(20.dp))
+
+        // ── Privacy ───────────────────────────────────────────────────────────
+        SectionTitle(stringResource(R.string.about_section_privacy))
+        InfoRow(
+            icon = Icons.Filled.Lock,
+            label = stringResource(R.string.about_privacy_policy_label),
+            value = stringResource(R.string.about_privacy_policy_value)
         )
 
         Spacer(Modifier.height(20.dp))
