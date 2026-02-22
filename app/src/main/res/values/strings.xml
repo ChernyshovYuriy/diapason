@@ -154,6 +154,11 @@
     <string name="about_reference_yin_value">de Cheveigné &amp; Kawahara — JASA 111(4), 2002</string>
     <string name="about_reference_fach_label">Fach taxonomy</string>
     <string name="about_reference_fach_value">Kloiber / Maehder / Melchert — Handbuch der Oper</string>
+    <string name="about_section_privacy">Privacy</string>
+    <string name="about_privacy_policy_label">Privacy policy</string>
+    <string name="about_privacy_policy_value">Your voice analysis stays on-device. No audio recordings are uploaded or shared.</string>
+    <string name="about_privacy_policy_cta">Tap to open full policy</string>
+    <string name="about_privacy_policy_url">https://diapason-app.web.app/policy.html</string>
     <string name="about_section_feedback">Feedback &amp; Bug Reports</string>
     <string name="about_feedback_body">Found a bug or have a feature request? Open an issue on the project repository.</string>
     <string name="about_footer">© 2026 Chernyshov Yurii · Diapason %1$s</string>
