@@ -1,5 +1,7 @@
 # Diapason
 
+Available at [Google Play](https://play.google.com/store/apps/details?id=com.yuriy.diapason)
+
 ## Project status
 
 > 🚧 **This is a brand-new project.** Development has just started, it is a work in progress, and it is **not released on Google Play** yet.
