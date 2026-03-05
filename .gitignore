@@ -2,7 +2,6 @@
 .gradle
 local.properties
 .idea
-.DS_Store
 gradlew.bat
 /build
 /captures
@@ -10,3 +9,4 @@ gradlew.bat
 .cxx
 app/google-services.json
 app/release
+.kotlin
