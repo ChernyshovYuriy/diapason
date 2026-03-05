@@ -184,15 +184,18 @@ fun AboutScreen() {
                     listOf(
                         LanguageOption(
                             tag = "en",
-                            labelRes = R.string.about_language_english
+                            labelRes = R.string.about_language_english,
+                            flagEmoji = "🇬🇧"
                         ),
                         LanguageOption(
                             tag = "fr",
-                            labelRes = R.string.about_language_french
+                            labelRes = R.string.about_language_french,
+                            flagEmoji = "🇫🇷"
                         ),
                         LanguageOption(
                             tag = "it",
-                            labelRes = R.string.about_language_italian
+                            labelRes = R.string.about_language_italian,
+                            flagEmoji = "🇮🇹"
                         )
                     )
                 }
@@ -203,15 +206,23 @@ fun AboutScreen() {
 
                 Spacer(Modifier.height(10.dp))
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     languageOptions.forEach { option ->
                         FilterChip(
+                            modifier = Modifier.padding(horizontal = 4.dp),
                             selected = selectedLanguageTag.startsWith(option.tag),
                             onClick = {
                                 AppCompatDelegate.setApplicationLocales(
                                     LocaleListCompat.forLanguageTags(option.tag)
+                                )
+                            },
+                            leadingIcon = {
+                                Text(
+                                    text = option.flagEmoji,
+                                    fontSize = 24.sp
                                 )
                             },
                             label = {
@@ -351,7 +362,8 @@ fun AboutScreen() {
 
 private data class LanguageOption(
     val tag: String,
-    val labelRes: Int
+    val labelRes: Int,
+    val flagEmoji: String
 )
 
 // ─────────────────────────────────────────────────────────────────────────────
