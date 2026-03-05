@@ -20,7 +20,7 @@ private const val MIN_YIN_CONFIDENCE = 0.80f
 
 /**
  * Localised strings required by [VoiceAnalyzer].
- * Resolved by the caller (e.g. [AnalyzeViewModel]) so this class stays context-free.
+ * Resolved by the caller (e.g. AnalyzeViewModel) so this class stays context-free.
  */
 data class VoiceAnalyzerStrings(
     val listeningMessage: String,

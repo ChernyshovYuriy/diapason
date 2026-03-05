@@ -10,16 +10,21 @@ import com.yuriy.diapason.R
  * (famous roles, example singers). The latter powers the Voice Types screen.
  */
 data class FachDefinition(
-    @StringRes val nameRes: Int,
-    @StringRes val categoryRes: Int,           // broad grouping label
+    @StringRes
+    val nameRes: Int,
+    @StringRes
+    val categoryRes: Int,           // broad grouping label
     val rangeMinHz: Float,
     val rangeMaxHz: Float,
     val tessituraMinHz: Float,
     val tessituraMaxHz: Float,
     val passaggioHz: Float,
-    @StringRes val descriptionRes: Int,        // one-line character description
-    @ArrayRes val famousRolesRes: Int,         // opera / classical roles
-    @ArrayRes val exampleSingersRes: Int
+    @StringRes
+    val descriptionRes: Int,        // one-line character description
+    @ArrayRes
+    val famousRolesRes: Int,         // opera / classical roles
+    @ArrayRes
+    val exampleSingersRes: Int
 )
 
 data class VoiceProfile(

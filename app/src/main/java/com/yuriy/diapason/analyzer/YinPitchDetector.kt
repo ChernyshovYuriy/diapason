@@ -76,8 +76,8 @@ object YinPitchDetector {
         if (x0 == tauEstimate) return if (yinBuffer[tauEstimate] <= yinBuffer[x2]) tauEstimate.toDouble() else x2.toDouble()
         if (x2 == tauEstimate) return if (yinBuffer[tauEstimate] <= yinBuffer[x0]) tauEstimate.toDouble() else x0.toDouble()
 
-        val s0 = yinBuffer[x0];
-        val s1 = yinBuffer[tauEstimate];
+        val s0 = yinBuffer[x0]
+        val s1 = yinBuffer[tauEstimate]
         val s2 = yinBuffer[x2]
         return tauEstimate + (s2 - s0) / (2.0 * (2.0 * s1 - s2 - s0))
     }

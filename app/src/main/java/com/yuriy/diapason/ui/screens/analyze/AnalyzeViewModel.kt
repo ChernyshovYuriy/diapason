@@ -128,11 +128,6 @@ class AnalyzeViewModel(application: Application) : AndroidViewModel(application)
         // still tap "View Last Result" before they start a fresh recording.
     }
 
-    /** Clears the stored result (called when user explicitly starts a new session). */
-    fun clearLastResult() {
-        _lastResult.value = null
-    }
-
     override fun onCleared() {
         super.onCleared()
         if (analyzer.isRunning) {

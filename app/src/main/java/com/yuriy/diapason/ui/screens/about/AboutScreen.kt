@@ -340,21 +340,3 @@ private fun InfoRow(icon: ImageVector, label: String, value: String) {
         }
     }
 }
-
-@Composable
-private fun TranslationOption(name: String, detail: String) {
-    Column(modifier = Modifier.padding(bottom = 8.dp)) {
-        Text(
-            stringResource(R.string.about_translation_item_format, name),
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Text(
-            detail,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 10.dp, top = 1.dp)
-        )
-    }
-}

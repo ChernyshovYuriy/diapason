@@ -2,6 +2,7 @@ package com.yuriy.diapason.analyzer
 
 import android.util.Log
 import kotlin.math.abs
+import kotlin.math.ln
 
 private const val TAG = "FachClassifier"
 
@@ -12,8 +13,8 @@ object FachClassifier {
     fun hzToNoteName(hz: Float): String {
         if (hz <= 0f) return "—"
         val noteNames = arrayOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
-        val midi = (12 * Math.log(hz / 440.0) / Math.log(2.0) + 69).toInt()
-        if (midi < 0 || midi > 127) return "%.0f Hz".format(hz)
+        val midi = (12 * ln(hz / 440.0) / ln(2.0) + 69).toInt()
+        if (midi !in 0..127) return "%.0f Hz".format(hz)
         return "${noteNames[midi % 12]}${(midi / 12) - 1}"
     }
 
@@ -79,16 +80,16 @@ object FachClassifier {
 
             // 1. Upper ceiling
             val maxRatio = profile.absoluteMaxHz / fach.rangeMaxHz
-            when {
-                maxRatio in 0.90f..1.10f -> {
+            when (maxRatio) {
+                in 0.90f..1.10f -> {
                     score += 3; breakdown += "+3 upper ceiling ≈ ${hzToNoteName(fach.rangeMaxHz)}"
                 }
 
-                maxRatio in 0.80f..1.20f -> {
+                in 0.80f..1.20f -> {
                     score += 2; breakdown += "+2 upper ceiling near ${hzToNoteName(fach.rangeMaxHz)}"
                 }
 
-                maxRatio in 0.70f..1.30f -> {
+                in 0.70f..1.30f -> {
                     score += 1; breakdown += "+1 upper ceiling roughly near ${hzToNoteName(fach.rangeMaxHz)}"
                 }
 
@@ -97,12 +98,12 @@ object FachClassifier {
 
             // 2. Lower floor
             val minRatio = profile.absoluteMinHz / fach.rangeMinHz
-            when {
-                minRatio in 0.85f..1.15f -> {
+            when (minRatio) {
+                in 0.85f..1.15f -> {
                     score += 2; breakdown += "+2 lower floor ≈ ${hzToNoteName(fach.rangeMinHz)}"
                 }
 
-                minRatio in 0.70f..1.30f -> {
+                in 0.70f..1.30f -> {
                     score += 1; breakdown += "+1 lower floor near ${hzToNoteName(fach.rangeMinHz)}"
                 }
 
@@ -111,16 +112,16 @@ object FachClassifier {
 
             // 3. Tessitura high
             val tessHighRatio = profile.tessituraHighHz / fach.tessituraMaxHz
-            when {
-                tessHighRatio in 0.90f..1.10f -> {
+            when (tessHighRatio) {
+                in 0.90f..1.10f -> {
                     score += 3; breakdown += "+3 tessitura high ≈ ${hzToNoteName(fach.tessituraMaxHz)}"
                 }
 
-                tessHighRatio in 0.80f..1.20f -> {
+                in 0.80f..1.20f -> {
                     score += 2; breakdown += "+2 tessitura high near ${hzToNoteName(fach.tessituraMaxHz)}"
                 }
 
-                tessHighRatio in 0.70f..1.30f -> {
+                in 0.70f..1.30f -> {
                     score += 1; breakdown += "+1 tessitura high roughly near ${hzToNoteName(fach.tessituraMaxHz)}"
                 }
 
@@ -129,16 +130,16 @@ object FachClassifier {
 
             // 4. Tessitura low
             val tessLowRatio = profile.tessituraLowHz / fach.tessituraMinHz
-            when {
-                tessLowRatio in 0.90f..1.10f -> {
+            when (tessLowRatio) {
+                in 0.90f..1.10f -> {
                     score += 3; breakdown += "+3 tessitura low ≈ ${hzToNoteName(fach.tessituraMinHz)}"
                 }
 
-                tessLowRatio in 0.80f..1.20f -> {
+                in 0.80f..1.20f -> {
                     score += 2; breakdown += "+2 tessitura low near ${hzToNoteName(fach.tessituraMinHz)}"
                 }
 
-                tessLowRatio in 0.70f..1.30f -> {
+                in 0.70f..1.30f -> {
                     score += 1; breakdown += "+1 tessitura low roughly near ${hzToNoteName(fach.tessituraMinHz)}"
                 }
 

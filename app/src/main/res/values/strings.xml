@@ -197,7 +197,7 @@
         <item>Gilda — Rigoletto (Verdi)</item>
         <item>Norina — Don Pasquale (Donizetti)</item>
         <item>Rosina — The Barber of Seville (Rossini)</item>
-        <item>Adina — L'elisir d'amore (Donizetti)</item>
+        <item>Adina — L\'elisir d\'amore (Donizetti)</item>
     </string-array>
     <string-array name="fach_example_singers_lyric_coloratura_soprano">
         <item>Cecilia Bartoli</item>
@@ -293,8 +293,8 @@
     <string name="fach_description_countertenor">Male voice using falsetto/head voice in the alto–mezzo range, specialising in Baroque.</string>
     <string-array name="fach_famous_roles_countertenor">
         <item>Julius Caesar — Giulio Cesare (Handel)</item>
-        <item>Oberon — A Midsummer Night's Dream (Britten)</item>
-        <item>Ottone — L'incoronazione di Poppea (Monteverdi)</item>
+        <item>Oberon — A Midsummer Night\'s Dream (Britten)</item>
+        <item>Ottone — L\'incoronazione di Poppea (Monteverdi)</item>
         <item>Bertarido — Rodelinda (Handel)</item>
     </string-array>
     <string-array name="fach_example_singers_countertenor">
@@ -388,7 +388,7 @@
         <item>Leo Nucci</item>
     </string-array>
     <string name="fach_name_bass_baritone">Bass-Baritone</string>
-    <string name="fach_description_bass_baritone">Bridges bass depth with baritone agility — ideal for Wagner's heroic villains.</string>
+    <string name="fach_description_bass_baritone">Bridges bass depth with baritone agility — ideal for Wagner\'s heroic villains.</string>
     <string-array name="fach_famous_roles_bass_baritone">
         <item>Wotan — The Ring Cycle (Wagner)</item>
         <item>Hans Sachs — Die Meistersinger (Wagner)</item>
