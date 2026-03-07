@@ -1,7 +1,10 @@
 package com.yuriy.diapason.ui.screens.about
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,11 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.LocaleListCompat
 import androidx.core.net.toUri
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.FlowRow
+import androidx.core.os.LocaleListCompat
 import com.yuriy.diapason.BuildConfig
 import com.yuriy.diapason.R
 
@@ -196,6 +196,11 @@ fun AboutScreen() {
                             tag = "it",
                             labelRes = R.string.about_language_italian,
                             flagEmoji = "🇮🇹"
+                        ),
+                        LanguageOption(
+                            tag = "es",
+                            labelRes = R.string.about_language_spanish,
+                            flagEmoji = "🇪🇸"
                         )
                     )
                 }
